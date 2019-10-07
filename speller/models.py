@@ -6,4 +6,4 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String(100), unique=True)
     password = db.Column(db.String(100))
     name = db.Column(db.String(1000))
-    phone = db.Column(db.Unicode(20),nullable = True)
+    phone = db.Column(db.Unicode(20))
