@@ -1,4 +1,5 @@
 # auth.py
+#Adapted from https://github.com/PrettyPrinted/flask_auth_scotch
 
 from flask import Blueprint, render_template, redirect, url_for, request, flash
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -34,7 +35,7 @@ def login_post():
 @auth.route('/signup')
 def signup():
     return render_template('signup.html')
-    
+
 @auth.route('/signup', methods=['POST'])
 def signup_post():
 
