@@ -1,5 +1,6 @@
 
 # __init__.py
+#Adapted from https://github.com/PrettyPrinted/flask_auth_scotch
 
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
