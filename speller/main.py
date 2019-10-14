@@ -31,7 +31,7 @@ def spell_check_post():
      text = sanitize(text)
      x = [random.randint(0,9) for y in range (0,10)]
      temp = ''.join(map(str,x))
-     f = open(/speller/temp+".txt","w+")
+     f = open("/speller/"temp+".txt","w+")
      f.write(text)
      f.close()
      #check words
