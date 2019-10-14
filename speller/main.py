@@ -31,13 +31,15 @@ def spell_check_post():
      text = sanitize(text)
      x = [random.randint(0,9) for y in range (0,10)]
      temp = ''.join(map(str,x))
-     f = open("/speller/"+temp+".txt","w+")
+     f = open("./speller/"+temp+".txt","w+")
      f.write(text)
      f.close()
      #check words
-     cmd = "./a.out f.name wordlist.txt"
+     cmd = "./speller/a.out "+f.name+" ./speller/wordlist.txt"
      #run file through spell checker c program
      checkedtext = subprocess.check_output(cmd, shell=True)
+     #decode to string from bytes
+     checkedtext = checkedtext.decode('ascii')
      #replace the carriage returns with html return tags
      checkedtext = checkedtext.replace("\n","<br>")
      #delete file to prevent resource depletion attacks
