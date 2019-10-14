@@ -6,6 +6,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, logout_user, login_required
 from .models import User
 from . import db
+from sanitize import sanitize
 
 auth = Blueprint('auth', __name__)
 
@@ -19,6 +20,9 @@ def login_post():
     email = request.form.get('email')
     password = request.form.get('password')
     remember = True if request.form.get('remember') else False
+    
+    #sanitize user input trust no man
+    email = sanitize(email)
 
     user = User.query.filter_by(email=email).first()
 
@@ -44,6 +48,9 @@ def signup_post():
     password = request.form.get('password')
     phone = request.form.get('phone')
 
+    #sanitize input. If someone does something sketch, they won't get to log in with their gargbage inputs
+    email = sanitize(email)
+    
     user = User.query.filter_by(email=email).first() # if this returns a user, then the email already exists in database
 
     if user: # if a user is found, we want to redirect back to signup page so user can try again  
