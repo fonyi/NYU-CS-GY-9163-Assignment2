@@ -40,6 +40,7 @@ def spell_check_post():
      checkedtext = subprocess.check_output(cmd, shell=True)
      #decode to string from bytes
      checkedtext = checkedtext.decode('ascii')
+     checkedtext = checkedtext.replace("\n",",")
      #delete file to prevent resource depletion attacks
      os.remove(f.name)
      return render_template('spellcheckpost.html',inputtext=text,outtext=checkedtext)
