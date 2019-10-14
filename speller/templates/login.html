@@ -14,24 +14,24 @@
         {% endif %}
         {% endwith %}
         <form method="POST" action="/login">
-            <div class="field">
+            <div class="field" id=uname>
                 <div class="control">
                     <input class="input is-large" type="email" name="email" placeholder="Your Email" autofocus="">
                 </div>
             </div>
 
-            <div class="field">
+            <div class="field" id=pword>
                 <div class="control">
                     <input class="input is-large" type="password" name="password" placeholder="Your Password">
                 </div>
             </div>
 
-            <div class="field">
+            <div class="field" id=2fa>
                 <div class="control">
                     <input class="input is-large" type="number" name="2fa" placeholder="Your 2FA">
                 </div>
             </div>
-            
+
             <div class="field">
                 <label class="checkbox">
                     <input type="checkbox">
