@@ -19,7 +19,12 @@ def login():
 def login_post():
     email = request.form.get('email')
     password = request.form.get('password')
+    mfa = request.form.get('2fa')
     remember = True if request.form.get('remember') else False
+    
+    if not mfa.isdigit():
+        flash('Phone for 2FA is not a number!')
+        return redirect(url_for('auth.login_post'))
     
     #sanitize user input trust no man
     email = sanitize(email)
@@ -29,9 +34,11 @@ def login_post():
     # check if user actually exists
     # take the user supplied password, hash it, and compare it to the hashed password in database
     if not user or not check_password_hash(user.password, password): 
-        flash('Please check your login details and try again.')
+        flash('Login Failed. Please check your login details and try again.')
         return redirect(url_for('auth.login_post')) # if user doesn't exist or password is wrong, reload the page
-
+    if not user.phone == mfa:
+        flash('Login Failed. Please verify your multi factor authentication')
+        return redirect(url_for('auth.login_post'))
     # if the above check passes, then we know the user has the right credentials
     login_user(user, remember=remember)
     return redirect(url_for('main.profile'))
@@ -50,6 +57,10 @@ def signup_post():
 
     #sanitize input. If someone does something sketch, they won't get to log in with their gargbage inputs
     email = sanitize(email)
+    name = sanitize(name)
+    if not phone.isdigit():
+        flash('Phone for 2FA is not a number!')
+        return redirect(url_for('auth.signup_post'))
 
     user = User.query.filter_by(email=email).first() # if this returns a user, then the email already exists in database
 
