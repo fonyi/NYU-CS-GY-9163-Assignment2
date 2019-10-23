@@ -67,7 +67,8 @@ def signup_post():
 
     #sanitize input. If someone does something sketch, they won't get to log in with their gargbage inputs
     email = sanitize(email)
-    name = sanitize(name)
+    if name:
+        name = sanitize(name)
     if not phone.isdigit():
         flash('Failure - Phone for 2FA is not a number!','is-danger')
         return redirect(url_for('auth.signup_post'))
