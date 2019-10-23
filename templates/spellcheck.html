@@ -16,6 +16,7 @@
             <div class="field">
                 <div class="control">
                     <textarea id=inputtext class="textarea" name="inputtext" placeholder="Your text"></textarea>
+		    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
                 </div>
             </div>
             <button class="button is-block is-info is-large is-fullwidth">Check</button>
