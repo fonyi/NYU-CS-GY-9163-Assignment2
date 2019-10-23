@@ -84,7 +84,7 @@ def signup_post():
     db.session.add(new_user)
     db.session.commit()
     flash('Success','is-success')
-    return redirect(url_for('auth.login_post'))
+    #return redirect(url_for('auth.login_post'))
 
 @auth.route('/logout')
 @login_required
