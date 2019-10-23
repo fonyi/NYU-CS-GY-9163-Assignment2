@@ -27,7 +27,7 @@ def login_post():
     remember = True if request.form.get('remember') else False
     
     if not mfa.isdigit():
-        flash('Phone for 2FA is not a number!','is-warning')
+        flash('Failure - Phone for 2FA is not a number!','is-warning')
         return redirect(url_for('auth.login_post'))
     
     #sanitize user input trust no man
@@ -38,15 +38,16 @@ def login_post():
     # check if user actually exists
     # take the user supplied password, hash it, and compare it to the hashed password in database
     if not user or not check_password_hash(user.password, password): 
-        flash('Incorrect username or password. Please check your login details and try again.','is-danger')
+        flash('Failure - Incorrect username or password. Please check your login details and try again.','is-danger')
         return redirect(url_for('auth.login_post')) # if user doesn't exist or password is wrong, reload the page
     if not user.phone == mfa:
-        flash('Login Failure. Please verify your multi factor authentication','is-danger')
+        flash('Failure - Please verify your multi factor authentication','is-danger')
         return redirect(url_for('auth.login_post'))
     # if the above check passes, then we know the user has the right credentials
+    flash('success','is-success')
     login_user(user, remember=remember)
 
-    return redirect(url_for('auth.success'))
+    #return redirect(url_for('auth.success'))
 
 @auth.route('/success')
 def success():
@@ -68,22 +69,30 @@ def signup_post():
     email = sanitize(email)
     name = sanitize(name)
     if not phone.isdigit():
-        flash('Phone for 2FA is not a number!','is-danger')
+        flash('Failure - Phone for 2FA is not a number!','is-danger')
         return redirect(url_for('auth.signup_post'))
 
     user = User.query.filter_by(email=email).first() # if this returns a user, then the email already exists in database
 
     if user: # if a user is found, we want to redirect back to signup page so user can try again  
-        flash('Email address already exists','is-danger')
+        flash('Failure - Email address already exists','is-danger')
         return redirect(url_for('auth.signup_post'))
 
     # create new user with the form data. Hash the password so plaintext version isn't saved.
     new_user = User(email=email, name=name, password=generate_password_hash(password, method='sha256'), phone=phone)
 
     # add the new user to the database
-    db.session.add(new_user)
-    db.session.commit()
-    flash('Success','is-success')
+    failed=False
+    try:
+        db.session.add(new_user)
+        db.session.commit()
+    except Exception as e:
+        #log your exception in the way you want -> log to file, log as error with default logging, send by email. It's upon you
+        db.session.rollback()
+        db.session.flush() # for resetting non-commited .add()
+        failed=True
+    if not failed:
+        flash('Success','is-success')
     #return redirect(url_for('auth.login_post'))
 
 @auth.route('/logout')
