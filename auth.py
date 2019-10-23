@@ -21,8 +21,8 @@ def login():
 
 @auth.route('/login', methods=['POST'])
 def login_post():
-    email = request.form.get('email')
-    password = request.form.get('password')
+    email = request.form.get('uname')
+    password = request.form.get('pword')
     mfa = request.form.get('2fa')
     remember = True if request.form.get('remember') else False
     
@@ -52,16 +52,16 @@ def login_post():
 def success():
     return render_template('success.html')
 
-@auth.route('/signup')
+@auth.route('/register')
 def signup():
     return render_template('signup.html')
 
-@auth.route('/signup', methods=['POST'])
+@auth.route('/register', methods=['POST'])
 def signup_post():
 
-    email = request.form.get('email')
+    email = request.form.get('uname')
     name = request.form.get('name')
-    password = request.form.get('password')
+    password = request.form.get('pword')
     phone = request.form.get('2fa')
 
     #sanitize input. If someone does something sketch, they won't get to log in with their gargbage inputs
