@@ -52,11 +52,11 @@ def login_post():
 def success():
     return render_template('success.html')
 
-@auth.route('/signup')
+@auth.route('/register')
 def signup():
     return render_template('signup.html')
 
-@auth.route('/signup', methods=['POST'])
+@auth.route('/register', methods=['POST'])
 def signup_post():
 
     email = request.form.get('email')
