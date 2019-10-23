@@ -9,7 +9,7 @@
         {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
             {% for category, message in messages %}
-            <div class="notification {{category}}" id=result>
+            <div class="notification {{category}}" id=success>
                 {{ message }}
             </div>
             {% endfor %}

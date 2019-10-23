@@ -68,13 +68,13 @@ def signup_post():
     email = sanitize(email)
     name = sanitize(name)
     if not phone.isdigit():
-        flash('Phone for 2FA is not a number!')
+        flash('Phone for 2FA is not a number!','is-danger')
         return redirect(url_for('auth.signup_post'))
 
     user = User.query.filter_by(email=email).first() # if this returns a user, then the email already exists in database
 
     if user: # if a user is found, we want to redirect back to signup page so user can try again  
-        flash('Email address already exists')
+        flash('Email address already exists','is-danger')
         return redirect(url_for('auth.signup_post'))
 
     # create new user with the form data. Hash the password so plaintext version isn't saved.
@@ -83,7 +83,7 @@ def signup_post():
     # add the new user to the database
     db.session.add(new_user)
     db.session.commit()
-
+    flash('Success','is-success')
     return redirect(url_for('auth.login_post'))
 
 @auth.route('/logout')
