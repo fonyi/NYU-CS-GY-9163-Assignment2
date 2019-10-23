@@ -39,7 +39,7 @@
                         <input id=2fa class="input is-large" type="tel" required name="2fa" placeholder="Phone Number" autofocus="">
                     </div>
             </div>
-            <input type="hidden" name="_csrf_token" value="{{ csrf_token() }}">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
             <button class="button is-block is-info is-large is-fullwidth">Sign Up</button>
         </form>
     </div>
