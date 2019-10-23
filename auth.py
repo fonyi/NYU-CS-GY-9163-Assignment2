@@ -4,9 +4,9 @@
 from flask import Blueprint, render_template, redirect, url_for, request, flash
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, logout_user, login_required, current_user
-from .models import User
-from . import db
-from .sanitize import sanitize
+from models import User
+from app import db
+from sanitize import sanitize
 import time
 
 auth = Blueprint('auth', __name__)
@@ -62,7 +62,7 @@ def signup_post():
     email = request.form.get('email')
     name = request.form.get('name')
     password = request.form.get('password')
-    phone = request.form.get('phone')
+    phone = request.form.get('2fa')
 
     #sanitize input. If someone does something sketch, they won't get to log in with their gargbage inputs
     email = sanitize(email)

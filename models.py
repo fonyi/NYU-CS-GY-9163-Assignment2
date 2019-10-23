@@ -1,7 +1,7 @@
 #models.py
 #Adapted from https://github.com/PrettyPrinted/flask_auth_scotch
 
-from . import db
+from app import db
 from flask_login import UserMixin
 
 class User(db.Model, UserMixin):

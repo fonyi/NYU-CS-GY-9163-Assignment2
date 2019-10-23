@@ -4,7 +4,7 @@
 from flask import Blueprint, render_template, redirect,request,flash,url_for
 from flask_login import login_required, current_user
 import random
-from .sanitize import sanitize
+from sanitize import sanitize
 import os
 import subprocess
 
@@ -31,11 +31,11 @@ def spell_check_post():
      text = sanitize(text)
      x = [random.randint(0,9) for y in range (0,10)]
      temp = ''.join(map(str,x))
-     f = open("./speller/"+temp+".txt","w+")
+     f = open("./"+temp+".txt","w+")
      f.write(text)
      f.close()
      #check words
-     cmd = "./speller/a.out "+f.name+" ./speller/wordlist.txt"
+     cmd = "./a.out "+f.name+" ./wordlist.txt"
      #run file through spell checker c program
      checkedtext = subprocess.check_output(cmd, shell=True)
      #decode to string from bytes
@@ -44,3 +44,6 @@ def spell_check_post():
      #delete file to prevent resource depletion attacks
      os.remove(f.name)
      return render_template('spellcheckpost.html',inputtext=text,outtext=checkedtext)
+
+if __name__ == '__main__':
+     main.run()
