@@ -14,8 +14,8 @@ auth = Blueprint('auth', __name__)
 
 @auth.route('/login')
 def login():
-    if current_user.is_authenticated:
-        return redirect(url_for('main.profile'))
+    #if current_user.is_authenticated:
+    #    return redirect(url_for('main.profile'))
     return render_template('login.html')
 
 
@@ -47,7 +47,7 @@ def login_post():
     flash('success','is-success')
     login_user(user, remember=remember)
 
-    #return redirect(url_for('auth.success'))
+    return redirect(url_for('auth.login_post'))
 
 @auth.route('/success')
 def success():
@@ -93,7 +93,7 @@ def signup_post():
         failed=True
     if not failed:
         flash('Success','is-success')
-    #return redirect(url_for('auth.login_post'))
+        return redirect(url_for('auth.signup_post'))
 
 @auth.route('/logout')
 @login_required
