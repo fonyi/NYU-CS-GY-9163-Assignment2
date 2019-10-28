@@ -9,6 +9,4 @@ install:
 before_script:
   - export FLASK_DEBUG=1
 
-script: 
-  - flask routes
-  - tox
+script: flask routes
