@@ -38,6 +38,8 @@ setup(
     },
     install_requires=(
         'flask',
-        'sqlalchemy',
+        'flask-sqlalchemy', 
+        'flask-login',
+        'flask-wtf'
     ),
 )
