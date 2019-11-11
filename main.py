@@ -46,7 +46,7 @@ def spell_check_post():
      #delete file to prevent resource depletion attacks
      os.remove(f.name)
      logquery = History(submit_text=text, returned_text=checkedtext, submit_user=current_user.email)
-     db.sesison.add(logquery)
+     db.session.add(logquery)
      db.session.commit()
      return render_template('spellcheckpost.html',inputtext=text,outtext=checkedtext)
 
