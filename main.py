@@ -5,6 +5,8 @@ from flask import Blueprint, render_template, redirect,request,flash,url_for
 from flask_login import login_required, current_user
 import random
 from sanitize import sanitize
+from app import db
+from models import History, Logins
 import os
 import subprocess
 
@@ -43,7 +45,16 @@ def spell_check_post():
      checkedtext = checkedtext.replace("\n",",")
      #delete file to prevent resource depletion attacks
      os.remove(f.name)
+     logquery = History(submit_text=text, returned_text=checkedtext, submit_user=current_user.email)
+     db.sesison.add(logquery)
+     db.session.commit()
      return render_template('spellcheckpost.html',inputtext=text,outtext=checkedtext)
+
+@main.route('/history')
+@login_required
+def query_history():
+     history = History.query.filter_by(submit_user=current_user.email).all()
+     return render_template('history.html',value = history)
 
 if __name__ == '__main__':
      main.run()
