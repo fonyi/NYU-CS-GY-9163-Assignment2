@@ -4,10 +4,11 @@
 from flask import Blueprint, render_template, redirect, url_for, request, flash
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, logout_user, login_required, current_user
-from models import User
+from models import User, Logins
 from app import db
 from sanitize import sanitize
 import time
+from datetime import datetime
 
 auth = Blueprint('auth', __name__)
 
@@ -46,7 +47,10 @@ def login_post():
     # if the above check passes, then we know the user has the right credentials
     flash('success','is-success')
     login_user(user, remember=remember)
-
+    current_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    loginquery = Logins(login_time=current_time,user_id=email)
+    db.session.add(loginquery)
+    db.session.commit()
     return redirect(url_for('auth.login_post'))
 
 @auth.route('/success')
@@ -99,5 +103,10 @@ def signup_post():
 @auth.route('/logout')
 @login_required
 def logout():
+    current_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    logoutquery = Logins(logout_time=current_time,user_id=current_user.email)
+    db.session.add(logoutquery)
+    db.session.commit()
+    current_user.email
     logout_user()
     return redirect(url_for('main.index'))

@@ -16,6 +16,7 @@ class History(db.Model):
     submit_text = db.Column(db.String(2000))
     returned_text = db.Column(db.String(2000))
     submit_user = db.Column(db.String(100))
+    timestamp = db.Column(db.String(100))
 
 class Logins(db.Model):
     login_id = db.Column(db.Integer, primary_key=True)

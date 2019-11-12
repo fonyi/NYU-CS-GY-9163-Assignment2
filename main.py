@@ -9,6 +9,7 @@ from app import db
 from models import History, Logins
 import os
 import subprocess
+from datetime import datetime
 
 main = Blueprint('main', __name__)
 
@@ -45,7 +46,8 @@ def spell_check_post():
      checkedtext = checkedtext.replace("\n",",")
      #delete file to prevent resource depletion attacks
      os.remove(f.name)
-     logquery = History(submit_text=text, returned_text=checkedtext, submit_user=current_user.email)
+     current_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+     logquery = History(submit_text=text, returned_text=checkedtext, submit_user=current_user.email, timestamp=current_time)
      db.session.add(logquery)
      db.session.commit()
      return render_template('spellcheckpost.html',inputtext=text,outtext=checkedtext)
@@ -54,7 +56,21 @@ def spell_check_post():
 @login_required
 def query_history():
      history = History.query.filter_by(submit_user=current_user.email).all()
-     return render_template('history.html',value = history)
+     return render_template('history.html',value = history, querycount = len(history))
+
+@main.route('/history/<int:query>')
+@login_required
+def query_lookup(query):
+     querydata = History.query.filter_by(query_id=query,submit_user=current_user.email).first()
+     return render_template('querydetails.html', value = querydata)
+     
+
+@main.route('/login_history')
+@login_required
+def login_history():
+     logins = Logins.query.filter_by(user_id=current_user.email).all()
+     return render_template('loginhistory.html',value = logins)
+
 
 if __name__ == '__main__':
      main.run()

@@ -1,17 +1,18 @@
 {% extends "base.html" %}
+
 {% block content %}
-<table>
+<table class="table">
     <thead>
     <tr>
-        <th>ID</th>
-        <th>Name</th>
+        <th>Login Time</th>
+        <th>Logout Time</th>
     </tr>
     </thead>
     <tbody>
         {% for row in value %} 
             <tr>
-                <td>{{row[0]}}</td>
-                <td>{{row[1]}}</td>
+                <td>{{row.login_time}}</td>
+                <td>{{row.logout_time}}</td>
             </tr>
         {% endfor %}
     </tbody>
