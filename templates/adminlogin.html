@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="column is-4 is-offset-4">
+    <h3 class="title">Enter User</h3>
+    <div class="box">
+        <form method="POST">
+                    <div class="field">
+                        <label class="label">Check Logins</label>
+                        <div class="control">
+                          <input class="input" type="text" id=userquery name="userquery" placeholder="User Name">
+                        </div>
+                        <p class="help">Enter Username to check login history</p>
+                      </div>
+		    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+            <button class="button is-block is-info is-large is-fullwidth">Check</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

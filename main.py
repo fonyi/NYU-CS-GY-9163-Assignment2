@@ -52,25 +52,46 @@ def spell_check_post():
      db.session.commit()
      return render_template('spellcheckpost.html',inputtext=text,outtext=checkedtext)
 
-@main.route('/history')
+@main.route('/history',methods=['GET'])
 @login_required
 def query_history():
+     if (current_user.email == "admin"):
+          return render_template('adminhistory.html')
+
      history = History.query.filter_by(submit_user=current_user.email).all()
      return render_template('history.html',value = history, querycount = len(history))
 
-@main.route('/history/<int:query>')
+@main.route('/history',methods=['POST'])
+@login_required
+def admin_history():
+     user = request.form['userquery']
+     history = History.query.filter_by(submit_user=user).all()
+     return render_template('history.html',value = history, querycount = len(history))
+
+@main.route('/history/<int:query>',methods=['GET'])
 @login_required
 def query_lookup(query):
+     if (current_user.email == "admin"):
+          querydata = History.query.filter_by(query_id=query).first()
+          return render_template('querydetails.html', value = querydata)
      querydata = History.query.filter_by(query_id=query,submit_user=current_user.email).first()
      return render_template('querydetails.html', value = querydata)
-     
 
-@main.route('/login_history')
+
+@main.route('/login_history',methods=['GET'])
 @login_required
 def login_history():
+     if (current_user.email == "admin"):
+          return render_template('adminlogin.html')
      logins = Logins.query.filter_by(user_id=current_user.email).all()
      return render_template('loginhistory.html',value = logins)
 
+@main.route('/login_history',methods=['POST'])
+@login_required
+def admin_login():
+     user = request.form['userquery']
+     logins = Logins.query.filter_by(user_id=user).all()
+     return render_template('loginhistory.html',value = logins)
 
 if __name__ == '__main__':
      main.run()
