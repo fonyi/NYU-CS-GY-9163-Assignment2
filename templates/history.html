@@ -2,7 +2,7 @@
 
 {% block content %}
 <div class="column is-4 is-offset-4">
-    <h3 class="title">Query ID</h3>
+    <h1 class="title">Number of Queries</h3>
     <div class="box">
         <div class="control">
             <textarea id=numqueries class="textarea" readonly>{{querycount}}</textarea>
@@ -10,9 +10,10 @@
     </div>
 </div>
 <div class="box">
+    <p><strong>Your Queries</strong></p>
         {% for row in value %}
                 <br>
-                <a id=query{{row.query_id}} href="/history/{{row.query_id}}">{{row.query_id}}</a>
+                <a id=query{{row.query_id}} href="/history/query{{row.query_id}}">{{row.query_id}}</a>
                 <br>
         {% endfor %}
 </div>

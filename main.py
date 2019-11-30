@@ -68,7 +68,7 @@ def admin_history():
      history = History.query.filter_by(submit_user=user).all()
      return render_template('history.html',value = history, querycount = len(history))
 
-@main.route('/history/<int:query>',methods=['GET'])
+@main.route('/history/query<int:query>',methods=['GET'])
 @login_required
 def query_lookup(query):
      if (current_user.email == "admin"):
