@@ -94,4 +94,4 @@ def admin_login():
      return render_template('loginhistory.html',value = logins)
 
 if __name__ == '__main__':
-     main.run()
+     main.run(host='0.0.0.0')
