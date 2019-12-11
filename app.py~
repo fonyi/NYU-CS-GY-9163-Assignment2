@@ -1,11 +1,12 @@
-# app.py
+
+# __init__.py
 #Adapted from https://github.com/PrettyPrinted/flask_auth_scotch
 
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_wtf.csrf import CSRFProtect
-import os
+
 
 
 # init SQLAlchemy so we can use it later in our models
@@ -13,14 +14,16 @@ db = SQLAlchemy()
 #init CSRF protection
 csrf = CSRFProtect()
 
-
 def create_app():
     app = Flask(__name__)
-    secret_pass = os.urandom(32)
-    app.config['SECRET_KEY'] = secret_pass
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite' 
-    csrf.init_app(app)
+
+    app.config['SECRET_KEY'] = 'K6F3dRC7HyJfpXSz89'
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite'
+
     db.init_app(app)
+
+    csrf.init_app(app)
+
     login_manager = LoginManager()
     login_manager.login_view = 'auth.login'
     login_manager.init_app(app)
